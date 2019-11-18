@@ -251,3 +251,31 @@ certainly want to use scripting.  You should include in your Linux build
 script the steps needed to create the device tree and the FSBL (first stage
 bootloader) from the .hdf file.
 
+Here is a quick summary:
+
+* Check in only the application project source code plus the Eclipse project files for it.  Leave out the bsp and hardware wrapper out.
+
+* Also check in the .hdf file.  Make sure the .hdf file is not generated in Vivado project directory.
+
+* On a fresh clone, you need to rebuild the bsp that the application project wants to reference.  Mainly this means that you have to remember to use the name it expects (usually "foo_bsp" for an application called "foo").
+
+The directory structure will look like this:
+
+    example_fpga/
+        rebuild.tcl   - TCL script created by Vivado.  Checked in.
+        rtl/          - Your Verilog (or VHDL) source code.  All checked in.
+        cons/         - Your constraint files.  All checked in.
+        project_1/    - Vivado project.  Nothing here is checked in.
+        ip/           - Xilinx IP.  Some files checked in.
+        design_1_wrapper.hdf     - The exported hardware.  Optionally checked in.
+        sdk/          - Becomes the XSDK / Eclipse workspace
+        sdk/foo/                 - The application project
+        sdk/foo/src/             - Source core for the application project. All checked in.
+        sdk/foo/.project         - Eclipse project file
+        sdk/foo/.cproject        - Eclipse project file
+        sdk/foo/Debug/           - Application binary: not checked in.
+        sdk/design_1_wrapper_hw_platform_0
+                                 - Hardware wrapper derived from .hdf: not checked in.
+        sdk/foo_bsp/             - BSP derived from wrapper: not checked in.
+        sdk/.metadata            - Eclipse workspace crap: not checked in.
+
