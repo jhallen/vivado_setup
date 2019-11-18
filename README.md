@@ -267,15 +267,16 @@ The directory structure will look like this:
         cons/         - Your constraint files.  All checked in.
         project_1/    - Vivado project.  Nothing here is checked in.
         ip/           - Xilinx IP.  Some files checked in.
-        design_1_wrapper.hdf     - The exported hardware.  Optionally checked in.
+        design_1_wrapper.hdf
+                      - The exported hardware.  Optionally checked in.
         sdk/          - Becomes the XSDK / Eclipse workspace
         sdk/foo/                 - The application project
-        sdk/foo/src/             - Source core for the application project. All checked in.
-        sdk/foo/.project         - Eclipse project file
-        sdk/foo/.cproject        - Eclipse project file
-        sdk/foo/Debug/           - Application binary: not checked in.
+        sdk/foo/src/             - Source code for the application project. All checked in.
+        sdk/foo/.project         - Eclipse project file.  Checked in.
+        sdk/foo/.cproject        - Eclipse project file.  Checked in.
+        sdk/foo/Debug/           - Application binary.  Not checked in.
         sdk/design_1_wrapper_hw_platform_0
-                                 - Hardware wrapper derived from .hdf: not checked in.
-        sdk/foo_bsp/             - BSP derived from wrapper: not checked in.
-        sdk/.metadata            - Eclipse workspace crap: not checked in.
+                                 - Hardware wrapper derived from .hdf Not checked in.
+        sdk/foo_bsp/             - BSP derived from wrapper. Not checked in.
+        sdk/.metadata            - Eclipse workspace crap. Not checked in.
 
