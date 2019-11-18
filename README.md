@@ -253,7 +253,7 @@ bootloader) from the .hdf file.
 
 Here is a quick summary:
 
-* Check in only the application project source code plus the Eclipse project files for it.  Leave out the bsp and hardware wrapper.
+* Check in only the application project source code plus the Eclipse project files for it.  Leave out the BSP project and hardware wrapper project.
 
 * Also check in the .hdf file.  Make sure the .hdf file is not generated in the Vivado project directory.
 
@@ -276,8 +276,8 @@ The directory structure will look like this:
         sdk/foo/.cproject        - Eclipse project file.  Checked in.
         sdk/foo/Debug/           - Application binary.  Not checked in.
         sdk/design_1_wrapper_hw_platform_0
-                                 - Hardware wrapper derived from .hdf Not checked in.
-        sdk/foo_bsp/             - BSP derived from wrapper. Not checked in.
+                                 - Hardware wrapper project derived from .hdf file. Not checked in.
+        sdk/foo_bsp/             - BSP project derived from wrapper. Not checked in.
         sdk/.metadata            - Eclipse workspace crap. Not checked in.
 
 It is important to understand some issues with the XSDK:
