@@ -289,9 +289,8 @@ It is important to understand some issues with the XSDK:
 * Related things are broken.  For example, you can right-click on an applicaiton project for "Change Referenced BSP", but it's broken- the window comes up blank.  This implies that you do not want to end up with multiple BSPs.
 
 Luckily, the application project references the BSP project with a relative
-path, so you can move the application proejct as long as the BSP project is
+path, so you can move the application project as long as the BSP project is
 created in the same relative position.  Also, Eclipse allows you to import
 projects which are already physically in the workspace.  So it works for
 Eclipse to start a new workspace with your application source code already
 there.
-
