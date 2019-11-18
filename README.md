@@ -214,3 +214,40 @@ Right click on the block design and create the HDL wrapper:
 
 That's it. Now you have the files necessary for checking into source control
 so you can use the write_project_tcl command.
+
+# Xilinx SDK / Eclipse
+
+Here is one way to structure your Xilinx SDK project so that it compatible
+with version control.  The goal here is to check in the minimum number of
+files so that an XSDK software project can be recreated in a new repository. 
+Only files that we create should be checked in, not derived files.  We want
+the project to work through the XSDK Eclipse GUI to enhance the convenience
+of certain tasks:
+
+* XSDK GUI allows you to casually create new software projects.  For example you may need to create the Xilinx memory test project when your board comes in or you may want to create a standalone project instead of full Linux for board bringup tasks.
+
+* XSDK GUI allows you to connect to the target and debug without using any other tools.
+
+On the other hand, for larger software projects and Linux you will almost
+certainly want to use scripting.  You should include in your Linux build
+script the steps needed to create the device tree and the FSBL (first stage
+bootloader) from the .hdf file.
+
+# Xilinx SDK / Eclipse
+
+Here is one way to structure your Xilinx SDK project so that it compatible
+with version control.  The goal here is to check in the minimum number of
+files so that an XSDK software project can be recreated in a new repository. 
+Only files that we create should be checked in, not derived files.  We want
+the project to work through the XSDK Eclipse GUI to enhance the convenience
+of certain tasks:
+
+* XSDK GUI allows you to casually create new software projects.  For example you may need to create the Xilinx memory test project when your board comes in or you may want to create a standalone project instead of full Linux for board bringup tasks.
+
+* XSDK GUI allows you to connect to the target and debug without using any other tools.
+
+On the other hand, for larger software projects and Linux you will almost
+certainly want to use scripting.  You should include in your Linux build
+script the steps needed to create the device tree and the FSBL (first stage
+bootloader) from the .hdf file.
+
