@@ -257,7 +257,7 @@ Here is a quick summary:
 
 * Also check in the .hdf file.  Make sure the .hdf file is not generated in the Vivado project directory.
 
-* On a fresh clone, you need to rebuild the bsp that the application project wants to reference.  Mainly this means that you have to remember to use the name it expects (usually "foo_bsp" for an application called "foo").
+* On a fresh clone, you need to rebuild the BSP project that the application project wants to reference.  Mainly this means that you have to remember to use the name it expects (usually "foo_bsp" for an application called "foo").
 
 The directory structure will look like this:
 
