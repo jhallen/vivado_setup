@@ -253,9 +253,9 @@ bootloader) from the .hdf file.
 
 Here is a quick summary:
 
-* Check in only the application project source code plus the Eclipse project files for it.  Leave out the bsp and hardware wrapper out.
+* Check in only the application project source code plus the Eclipse project files for it.  Leave out the bsp and hardware wrapper.
 
-* Also check in the .hdf file.  Make sure the .hdf file is not generated in Vivado project directory.
+* Also check in the .hdf file.  Make sure the .hdf file is not generated in the Vivado project directory.
 
 * On a fresh clone, you need to rebuild the bsp that the application project wants to reference.  Mainly this means that you have to remember to use the name it expects (usually "foo_bsp" for an application called "foo").
 
@@ -279,4 +279,12 @@ The directory structure will look like this:
                                  - Hardware wrapper derived from .hdf Not checked in.
         sdk/foo_bsp/             - BSP derived from wrapper. Not checked in.
         sdk/.metadata            - Eclipse workspace crap. Not checked in.
+
+It is important to understand some issues with the XSDK:
+
+* When you start it with the -hwspec option (as it is when you "Launch SDK" from Vivado), there is a very high chance that it will import the hdf as a new design wrapper project instead of updating your existing one.
+
+* Then if you do end up with multiple design wrapper projects, it will be unclear which one is being referenced by the BSP project.  The "system.mss" within the BSP shows it, but will you remember to look?  Chances are high that you will compile the code with the old hardware.
+
+* Related things are broken.  For example, you can right-click on an applicaiton project for "Change Referenced BSP", but it's broken- the window comes up blank.
 
