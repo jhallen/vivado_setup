@@ -217,13 +217,11 @@ so you can use the write_project_tcl command.
 
 # Xilinx SDK / Eclipse
 
-Here is one way to structure your Xilinx SDK project so that it compatible
-with version control.  The goal here is to check in the minimum number of
-files so that an XSDK software project can be recreated in a new repository. 
-Only files that we create should be checked in, not derived files.
+## Review
 
-But first, let's review a little about how XSDK works.  First thing you
-must do is export the hardware .hdf file from Vivado:
+XSDK allows you to develop software for the system you create on the FPGA. 
+Let's review a little about how XSDK works.  First thing you must do is
+export the hardware .hdf file from Vivado:
 
 ![image](images/exporthw.png)
 
@@ -304,6 +302,13 @@ hardware.  You end up with three projects:
 
 ![image](images/create5.png)
 
+## Source control for XSDK
+
+Here is one way to structure your Xilinx SDK project so that it compatible
+with version control.  The goal here is to check in the minimum number of
+files so that an XSDK software project can be recreated in a new repository. 
+Only files that we create should be checked in, not derived files.
+
 We want the project to work through the XSDK Eclipse GUI to enhance the
 convenience of certain tasks:
 
@@ -316,11 +321,9 @@ certainly want to use scripting.  You should include in your Linux build
 script the steps needed to create the device tree and the FSBL (first stage
 bootloader) from the .hdf file.
 
-Here is a quick summary:
+Here is a quick summary of what we are going to do:
 
 * Check in only the application project source code plus the Eclipse project files for it.  Leave out the BSP project and hardware wrapper project.
-
-* Also check in the .hdf file.  Make sure the .hdf file is not generated in the Vivado project directory.
 
 * On a fresh clone, you need to rebuild the BSP project that the application project wants to reference.  Mainly this means that you have to remember to use the name it expects (usually "foo_bsp" for an application called "foo").
 
@@ -345,7 +348,7 @@ The directory structure will look like this:
         sw/foo_bsp/             - BSP project derived from wrapper. Not checked in.
         sw/.metadata            - Eclipse workspace crap.  Not checked in.
 
-It is important to understand some issues with the XSDK:
+It is important to understand some issues with XSDK:
 
 * When you start it with the -hwspec option (as it is when you "Launch SDK" from Vivado), there is a very high chance that it will import the hdf as a new design wrapper project instead of updating your existing one.
 
