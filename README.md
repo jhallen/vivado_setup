@@ -273,6 +273,16 @@ Alternatively, you can start xsdk from the command line:
 XSDK starts, and creates a hardware wrapper project from the given .hdf
 file:
 
+![image](images/launch1.png)
+
+![image](images/launch2.png)
+
+![image](images/launch3.png)
+
+![image](images/launch4.png)
+
+Then we may create an application project:
+
 ![image](images/create1.png)
 
 ![image](images/create2.png)
