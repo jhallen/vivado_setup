@@ -261,7 +261,7 @@ Of course, it assumes you want the files in the project:
 ![image](images/startxsdk1.png)
 
 You should put the workspace (where xsdk will put the software projects you
-crate) outside of the Vivado project.  The "Exported Location" is the
+create) outside of the Vivado project.  The "Exported Location" is the
 directory where the .hdf file was placed:
 
 ![image](images/startxsdk2.png)
@@ -269,6 +269,19 @@ directory where the .hdf file was placed:
 Alternatively, you can start xsdk from the command line:
 
 	xsdk -workspace sw -hwspec design_1_wrapper.hdf
+
+XSDK starts, and creates a hardware wrapper project from the given .hdf
+file:
+
+![image](images/create1.png)
+
+![image](images/create2.png)
+
+![image](images/create3.png)
+
+![image](images/create4.png)
+
+![image](images/create5.png)
 
 We want the project to work through the XSDK Eclipse GUI to enhance the
 convenience of certain tasks:
