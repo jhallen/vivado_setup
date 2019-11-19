@@ -217,6 +217,8 @@ Right click on the block design and create the HDL wrapper:
 That's it. Now you have the files necessary for checking into source control
 so you can use the write_project_tcl command.
 
+<a name="xsdk"/>
+
 # Xilinx SDK / Eclipse
 
 ## Review
@@ -303,8 +305,6 @@ XSDK creates the application project and a BSP project for it.  The BSP
 are included in the hardware.  You end up with three projects:
 
 ![image](images/create5.png)
-
-<a name="xsdk"/>
 
 ## Source control for XSDK
 
