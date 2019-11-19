@@ -270,8 +270,8 @@ Alternatively, you can start xsdk from the command line:
 
 	xsdk -workspace sw -hwspec design_1_wrapper.hdf
 
-XSDK starts, and creates a hardware wrapper project from the given .hdf
-file:
+XSDK starts, and automatically runs a sequence to create a hardware wrapper
+project from the .hdf file:
 
 ![image](images/launch1.png)
 
@@ -279,17 +279,28 @@ file:
 
 ![image](images/launch3.png)
 
+You finally end up with one project in the workspace, the hardware wrapper
+project:
+
 ![image](images/launch4.png)
 
-Then we may create an application project:
+You then may create an application project based on a template:
 
 ![image](images/create1.png)
 
 ![image](images/create2.png)
 
+You can select the OS: standalone, linux or freertos.  We pick standalone:
+
 ![image](images/create3.png)
 
+And you select one of the template projects:
+
 ![image](images/create4.png)
+
+XSDK creates the application project and a BSP project for it.  The BSP
+project has the source code for the peripherals that are included in the
+hardware.  You end up with three projects:
 
 ![image](images/create5.png)
 
