@@ -1,5 +1,7 @@
 # Xilinx Vivado setup for source control
 
+See [here](#xsdk) for how to deal with xsdk / Eclipse.
+
 This was tested on Vivado version 2019.1
 
 Here is one way to structure your FPGA project so that it is compatible with
@@ -302,6 +304,7 @@ are included in the hardware.  You end up with three projects:
 
 ![image](images/create5.png)
 
+<a name="xsdk"/>
 ## Source control for XSDK
 
 Here is one way to structure your Xilinx SDK project so that it compatible
@@ -327,7 +330,9 @@ Here is a quick summary of what we are going to do:
 
 * On a fresh clone, you need to rebuild the BSP project that the application project wants to reference.  Mainly this means that you have to remember to use the name it expects (usually "fred_bsp" for an application called "fred").
 
-The directory structure will look like this:
+* Alternatively, you could include the BSP project in the repository.  You may want this if you customize it in any way.  In this case, you will have to import both the BSP and the application project.
+
+Assuming you do not put the BSP in the respository, the directory structure will look like this:
 
     quicktest1/
         rebuild.tcl   - TCL script created by Vivado.  Checked in.
@@ -362,6 +367,20 @@ It is important to understand some issues with XSDK:
 
 ![image](images/xsdk3.png)
 
+Anyway, you should only have a single hardware wrapper project and a single
+BSP in your workspace to keep things clear.  If you do end up with multiple
+wrapper projects, you should delete the ones you don't want by selected them
+and hitting the Delete key.  Then check the inter-project references by
+right-clicking on the BSP project, click Properties and click on Project
+References:
+
+![image](images/refs.png)
+
+Check the correct one.  Then clean and rebuild all.  Note that this window
+is also broken- none of the wrappers were checked to begin with.
+
+## Rebuild from fresh clone
+
 Luckily, the application project references the BSP project with a relative
 path, so you can move the application project as long as the BSP project is
 created in the same relative position.  Also, Eclipse allows you to import
@@ -369,8 +388,8 @@ projects which are already physically in the workspace.  So it works for
 Eclipse to start a new workspace with your application source code already
 there.
 
-Suppose we have a repository structured as above.  After a clone, you should
-follow these steps:
+Suppose we have a repository structured as above.  After a fresh clone, you
+should follow these steps:
 
     git clone https://github.com/jhallen/quicktest1.git
     cd quicktest1
@@ -419,3 +438,5 @@ Select the application project that we got from the "git clone":
 Now we have all three required projects:
 
 ![image](images/xsdk21.png)
+
+From here you can rebuild the application.
