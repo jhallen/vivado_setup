@@ -305,6 +305,7 @@ are included in the hardware.  You end up with three projects:
 ![image](images/create5.png)
 
 <a name="xsdk"/>
+
 ## Source control for XSDK
 
 Here is one way to structure your Xilinx SDK project so that it compatible
