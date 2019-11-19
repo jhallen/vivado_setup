@@ -297,8 +297,8 @@ And you select one of the template projects:
 ![image](images/create4.png)
 
 XSDK creates the application project and a BSP project for it.  The BSP
-project has the source code for the peripherals that are included in the
-hardware.  You end up with three projects:
+(Board Support Package) project has the source code for the peripherals that
+are included in the hardware.  You end up with three projects:
 
 ![image](images/create5.png)
 
@@ -325,11 +325,11 @@ Here is a quick summary of what we are going to do:
 
 * Check in only the application project source code plus the Eclipse project files for it.  Leave out the BSP project and hardware wrapper project.
 
-* On a fresh clone, you need to rebuild the BSP project that the application project wants to reference.  Mainly this means that you have to remember to use the name it expects (usually "foo_bsp" for an application called "foo").
+* On a fresh clone, you need to rebuild the BSP project that the application project wants to reference.  Mainly this means that you have to remember to use the name it expects (usually "fred_bsp" for an application called "fred").
 
 The directory structure will look like this:
 
-    example_fpga/
+    quicktest1/
         rebuild.tcl   - TCL script created by Vivado.  Checked in.
         rtl/          - Your Verilog (or VHDL) source code.  All checked in.
         cons/         - Your constraint files.  All checked in.
@@ -338,14 +338,14 @@ The directory structure will look like this:
         design_1_wrapper.hdf
                       - The exported hardware.
         sw/           - Becomes the XSDK / Eclipse workspace
-        sw/foo/                 - The application project
-        sw/foo/src/             - Source code for the application project. All checked in.
-        sw/foo/.project         - Eclipse project file.  Checked in.
-        sw/foo/.cproject        - Eclipse project file.  Checked in.
-        sw/foo/Debug/           - Application binary.  Not checked in.
+        sw/fred/                - The application project
+        sw/fred/src/            - Source code for the application project. All checked in.
+        sw/fred/.project        - Eclipse project file.  Checked in.
+        sw/fred/.cproject       - Eclipse project file.  Checked in.
+        sw/fred/Debug/          - Application binary.  Not checked in.
         sw/design_1_wrapper_hw_platform_0
                                 - Hardware wrapper project derived from .hdf file. Not checked in.
-        sw/foo_bsp/             - BSP project derived from wrapper. Not checked in.
+        sw/fred_bsp/            - BSP project derived from wrapper. Not checked in.
         sw/.metadata            - Eclipse workspace crap.  Not checked in.
 
 It is important to understand some issues with XSDK:
@@ -368,3 +368,54 @@ created in the same relative position.  Also, Eclipse allows you to import
 projects which are already physically in the workspace.  So it works for
 Eclipse to start a new workspace with your application source code already
 there.
+
+Suppose we have a repository structured as above.  After a clone, you should
+follow these steps:
+
+    git clone https://github.com/jhallen/quicktest1.git
+    cd quicktest1
+    xsdk -workspace sw -hwspec design_1_wrapper.hdf
+
+When it launches, you will only have the hardware wrapper project (no
+fred_bsp and no fred even though the fred/ directory is already in the
+workspace directory):
+
+![image](images/xsdk11.png)
+
+Create the BSP:
+
+![image](images/xsdk12.png)
+
+![image](images/xsdk13.png)
+
+Set the name to what the application project expects:
+
+![image](images/xsdk14.png)
+
+Select the same BSP options.  If any of these are selected, you are better
+off checking in the BSP.
+
+![image](images/xsdk15.png)
+
+Now we have the BSP project recreated:
+
+![image](images/xsdk16.png)
+
+Next we import the application project.  It's already on in the workspace,
+but xsdk doesn't know about it yet.
+
+![image](images/xsdk17.png)
+
+![image](images/xsdk18.png)
+
+Select the workspace directory to search:
+
+![image](images/xsdk19.png)
+
+Select the application project that we got from the "git clone":
+
+![image](images/xsdk20.png)
+
+Now we have all three required projects:
+
+![image](images/xsdk21.png)
