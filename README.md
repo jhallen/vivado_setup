@@ -220,11 +220,60 @@ so you can use the write_project_tcl command.
 Here is one way to structure your Xilinx SDK project so that it compatible
 with version control.  The goal here is to check in the minimum number of
 files so that an XSDK software project can be recreated in a new repository. 
-Only files that we create should be checked in, not derived files.  We want
-the project to work through the XSDK Eclipse GUI to enhance the convenience
-of certain tasks:
+Only files that we create should be checked in, not derived files.
 
-* XSDK GUI allows you to casually create new software projects.  For example you may need to create the Xilinx memory test project when your board comes in or you may want to create a standalone project instead of full Linux for board bringup tasks.
+But first, let's review a little about how XSDK works.  First thing you
+must do is export the hardware .hdf file from Vivado:
+
+![image](images/exporthw.png)
+
+As usual, Vivado will want to put it in the project:
+
+![image](images/exporthw1.png)
+
+You should save it somewhere else, perhaps at the top level since this is
+the one file that the software team will care about:
+
+![image](images/exporthw2.png)
+
+The .hdf file is a .zip file containing the list of peripherals in your
+design, the address map and possibly the .bit file- basically everything the
+software needs to know about the hardware:
+
+     ~/quicktest1 unzip -v design_2_wrapper.hdf 
+    Archive:  design_2_wrapper.hdf
+     Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+    --------  ------  ------- ---- ---------- ----- --------  ----
+         620  Defl:N      353  43% 2019-11-18 16:34 619e2f0a  sysdef.xml
+      261182  Defl:S    24932  91% 2019-11-18 16:34 0959ea2b  design_1.hwh
+       15855  Defl:S     4021  75% 2019-11-18 16:34 00750531  design_1_bd.tcl
+     1241916  Defl:S    58412  95% 2019-11-18 16:34 de68834d  design_1_wrapper.bit
+        1436  Defl:S      629  56% 2019-11-18 16:34 014b194a  design_1_wrapper.mmi
+    --------          -------  ---                            -------
+     1521009            88347  94%                            5 files
+
+Now we start xsdk, either through Vivado:
+
+![image](images/startsdk.png)
+
+Of course, it assumes you want the files in the project:
+
+![image](images/startsdk1.png)
+
+You should put the workspace (where xsdk will put the software projects you
+crate) outside of the Vivado project.  The "Exported Location" is the
+directory where the .hdf file was placed:
+
+![image](images/startsdk10.png)
+
+Alternatively, you can start xsdk from the command line:
+
+	xsdk -workspace sw -hwspec design_1_wrapper.hdf
+
+We want the project to work through the XSDK Eclipse GUI to enhance the
+convenience of certain tasks:
+
+* XSDK GUI allows you to casually create new software projects.  For example you may need to create the Xilinx Zynq memory test project when your board comes in to validate the DRAM or you may want to create a standalone project instead of full Linux for board bringup tasks.
 
 * XSDK GUI allows you to connect to the target and debug without using any other tools.
 
