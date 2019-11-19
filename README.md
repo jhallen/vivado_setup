@@ -254,17 +254,17 @@ software needs to know about the hardware:
 
 Now we start xsdk, either through Vivado:
 
-![image](images/startsdk.png)
+![image](images/startxsdk.png)
 
 Of course, it assumes you want the files in the project:
 
-![image](images/startsdk1.png)
+![image](images/startxsdk1.png)
 
 You should put the workspace (where xsdk will put the software projects you
 crate) outside of the Vivado project.  The "Exported Location" is the
 directory where the .hdf file was placed:
 
-![image](images/startsdk10.png)
+![image](images/startxsdk10.png)
 
 Alternatively, you can start xsdk from the command line:
 
