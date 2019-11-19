@@ -264,7 +264,7 @@ You should put the workspace (where xsdk will put the software projects you
 crate) outside of the Vivado project.  The "Exported Location" is the
 directory where the .hdf file was placed:
 
-![image](images/startxsdk10.png)
+![image](images/startxsdk2.png)
 
 Alternatively, you can start xsdk from the command line:
 
