@@ -233,24 +233,6 @@ certainly want to use scripting.  You should include in your Linux build
 script the steps needed to create the device tree and the FSBL (first stage
 bootloader) from the .hdf file.
 
-# Xilinx SDK / Eclipse
-
-Here is one way to structure your Xilinx SDK project so that it compatible
-with version control.  The goal here is to check in the minimum number of
-files so that an XSDK software project can be recreated in a new repository. 
-Only files that we create should be checked in, not derived files.  We want
-the project to work through the XSDK Eclipse GUI to enhance the convenience
-of certain tasks:
-
-* XSDK GUI allows you to casually create new software projects.  For example you may need to create the Xilinx memory test project when your board comes in or you may want to create a standalone project instead of full Linux for board bringup tasks.
-
-* XSDK GUI allows you to connect to the target and debug without using any other tools.
-
-On the other hand, for larger software projects and Linux you will almost
-certainly want to use scripting.  You should include in your Linux build
-script the steps needed to create the device tree and the FSBL (first stage
-bootloader) from the .hdf file.
-
 Here is a quick summary:
 
 * Check in only the application project source code plus the Eclipse project files for it.  Leave out the BSP project and hardware wrapper project.
@@ -268,25 +250,31 @@ The directory structure will look like this:
         project_1/    - Vivado project.  Nothing here is checked in.
         ip/           - Xilinx IP.  Some files checked in.
         design_1_wrapper.hdf
-                      - The exported hardware.  Optionally checked in.
-        sdk/          - Becomes the XSDK / Eclipse workspace
-        sdk/foo/                 - The application project
-        sdk/foo/src/             - Source code for the application project. All checked in.
-        sdk/foo/.project         - Eclipse project file.  Checked in.
-        sdk/foo/.cproject        - Eclipse project file.  Checked in.
-        sdk/foo/Debug/           - Application binary.  Not checked in.
-        sdk/design_1_wrapper_hw_platform_0
-                                 - Hardware wrapper project derived from .hdf file. Not checked in.
-        sdk/foo_bsp/             - BSP project derived from wrapper. Not checked in.
-        sdk/.metadata            - Eclipse workspace crap. Not checked in.
+                      - The exported hardware.
+        sw/           - Becomes the XSDK / Eclipse workspace
+        sw/foo/                 - The application project
+        sw/foo/src/             - Source code for the application project. All checked in.
+        sw/foo/.project         - Eclipse project file.  Checked in.
+        sw/foo/.cproject        - Eclipse project file.  Checked in.
+        sw/foo/Debug/           - Application binary.  Not checked in.
+        sw/design_1_wrapper_hw_platform_0
+                                - Hardware wrapper project derived from .hdf file. Not checked in.
+        sw/foo_bsp/             - BSP project derived from wrapper. Not checked in.
+        sw/.metadata            - Eclipse workspace crap.  Not checked in.
 
 It is important to understand some issues with the XSDK:
 
 * When you start it with the -hwspec option (as it is when you "Launch SDK" from Vivado), there is a very high chance that it will import the hdf as a new design wrapper project instead of updating your existing one.
 
+![image](images/xsdk1.png)
+
 * Then if you do end up with multiple design wrapper projects, it will be unclear which one is being referenced by the BSP project.  The "system.mss" within the BSP shows it, but will you remember to look?  Chances are high that you will compile the code with the old hardware.
 
 * Related things are broken.  For example, you can right-click on an applicaiton project for "Change Referenced BSP", but it's broken- the window comes up blank.  This implies that you do not want to end up with multiple BSPs.
+
+![image](images/xsdk2.png)
+
+![image](images/xsdk3.png)
 
 Luckily, the application project references the BSP project with a relative
 path, so you can move the application project as long as the BSP project is
