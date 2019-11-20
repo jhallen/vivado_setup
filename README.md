@@ -39,7 +39,7 @@ To save you some time:
 
 * Even with "write_project_tcl", the project has to be structured correctly or the script will not work.  In particular, none of the files needed to recreate the project should be in the project subdirectory.
 
-* The TCL file could be used as a starting point for your own build script.  However, it may be better to not modify it all.  Instead, repeatedly execute "write_project_tcl" throughout development to pick up the latest project changes.
+* The TCL file could be used as a starting point for your own build script.  However, it may be better to not modify it at all.  Instead, repeatedly execute "write_project_tcl" throughout development to pick up the latest project changes.
 
 Although it's possible to script the entire FPGA build process, it is
 also important to be able to use project mode to access the Vivado GUI for
