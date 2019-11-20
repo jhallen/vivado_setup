@@ -29,7 +29,7 @@ This was tested on Vivado version 2019.1
 Here is one way to structure your FPGA project so that it is compatible with
 both Xilinx Vivado GUI in project mode and source control.  This setup
 allows you to check in the minimum number of files needed so that you can
-easily recreate the project in another workspace.
+easily recreate the project in another sandbox.
 
 To save you some time:
 
@@ -301,9 +301,9 @@ Of course, it assumes you want the files in the project:
 
 ![image](images/startxsdk1.png)
 
-You should put the workspace (where XSDK will put the software projects you
-create) outside of the Vivado project.  The "Exported Location" is the
-directory where the .hdf file was placed:
+You should put the workspace directory (where XSDK will put the software
+projects you create) outside of the Vivado project.  The "Exported Location"
+is the directory where the .hdf file was placed:
 
 ![image](images/startxsdk2.png)
 
