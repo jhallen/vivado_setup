@@ -5,13 +5,21 @@ This was tested on Vivado version 2019.1
 ## Contents
 
 [Project setup](#vivado)
+
 [Build steps](#vivadosteps)
+
 [Save the script](#scriptwrite)
+
 [Xilinx IP](#xilinxip)
+
 [IP Integrator / Block design](#blockdesign)
+
 [XSDK](#xsdk)
+
 [XSDK review](#review)
+
 [Source control for XSDK](#xsdksc)
+
 [Rebuild steps](#xsdksteps)
 
 <a name="vivado"/>
