@@ -211,6 +211,27 @@ to run the write_project_tcl command and check the comments to be sure.
 Unfortunately the output products are generated in the same tree as the .xci
 files, so you have to pay close attention to the ip/ directory.
 
+You should know that there is a setting to override the default "IP
+Location".  It's here:
+
+![image](images/iploc1.png)
+
+![image](images/iploc2.png)
+
+![image](images/iploc3.png)
+
+Seems good right? But it isn't.  The problem is that this is a system-wide
+setting, not a per-project setting.  This default does not end up in the
+project tcl file, and if you change it, it will apply to all of your
+projects.  You could end up building IP from one project in another
+project's IP directory.
+
+I found that this setting is stored here:
+
+     ~/.Xilinx find . -type f | xargs grep newip
+    ./Vivado/2019.1/vivado.xml:            <recent index="0" path="/home/jallen/quicktest1/newip"/>
+    ./Vivado/2019.1/vivado.xml:        <CUSTOMIZED_IP_DEFAULT_LOCATION value="/home/jallen/quicktest1/newip"/>
+
 <a name="blockdesign"/>
 
 ## IP Integrator / Block design
