@@ -245,6 +245,8 @@ Now we create the block design:
 
 ![image](images/block3.png)
 
+Populate the block design canvas:
+
 ![image](images/block4.png)
 
 Right click on the block design and create the HDL wrapper:
