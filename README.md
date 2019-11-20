@@ -232,6 +232,10 @@ I found that this setting is stored here:
     ./Vivado/2019.1/vivado.xml:            <recent index="0" path="/home/jallen/quicktest1/newip"/>
     ./Vivado/2019.1/vivado.xml:        <CUSTOMIZED_IP_DEFAULT_LOCATION value="/home/jallen/quicktest1/newip"/>
 
+My recommendation for this setting is to change the path to something you
+don't have permission to write to, perhaps "/root".  This way, if you
+attempt to save IP to the default location, it will fail and inform you.
+
 <a name="blockdesign"/>
 
 ## IP Integrator / Block design
