@@ -476,18 +476,19 @@ Now we have the BSP project recreated:
 
 ![image](images/xsdk16.png)
 
-Next we import the application project.  It's already on in the workspace,
-but XSDK doesn't know about it yet.
+Next we import the application project.  It's already in the workspace
+directory, but XSDK doesn't know about it yet.
 
 ![image](images/xsdk17.png)
 
 ![image](images/xsdk18.png)
 
-Select the workspace directory to search:
+Select the current workspace directory to search for projects:
 
 ![image](images/xsdk19.png)
 
-Select the application project that we got from the "git clone":
+Select your application project ("fred" in this case) that was checked out
+with git:
 
 ![image](images/xsdk20.png)
 
