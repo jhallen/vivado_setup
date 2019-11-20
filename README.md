@@ -27,7 +27,7 @@ This was tested on Vivado version 2019.1
 ## Project setup
 
 Here is one way to structure your FPGA project so that it is compatible with
-both Xilinx Vivado GUI in project mode and version control.  This setup
+both Xilinx Vivado GUI in project mode and source control.  This setup
 allows you to check in the minimum number of files needed so that you can
 easily recreate the project in another workspace.
 
@@ -38,6 +38,8 @@ To save you some time:
 * There is a TCL command "write_project_tcl" which generates a TCL script which rebuilds the project in a new directory.  This method is shown here.
 
 * Even with "write_project_tcl", the project has to be structured correctly or the script will not work.  In particular, none of the files needed to recreate the project should be in the project subdirectory.
+
+* The TCL file could be used as a starting point for your own build script.  However, it may be better to not modify it all.  Instead, repeatedly execute "write_project_tcl" throughout development to pick up the latest project changes.
 
 Although it's possible to script the entire FPGA build process, it is
 also important to be able to use project mode to access the Vivado GUI for
@@ -65,13 +67,19 @@ commands:
     cd example_fpga
     vivado -source rebuild.tcl
 
-Also, you can always delete project_1/ and rebuild it:
+Also, you can always delete project_1/ and rebuild it.
 
     rm -rf project_1
     vivado -source rebuild.tcl
 
 The ip/ directory gets polluted with derived files, but at least Vivado
-tells you which ones need to be saved in source control.
+tells you which ones need to be saved in source control.  If the correct
+files are checked in, you can delete all derived files and rebuild:
+
+    rm -rf project_1
+    rm -rf ip              - Delete all Xilinx IP files (only after you've checked in the source)
+    git checkout ip        - Restore the actual source files
+    vivado -source rebuild.tcl
 
 <a name="vivadosteps"/>
 
@@ -80,8 +88,7 @@ tells you which ones need to be saved in source control.
 Suppose you don't have the project_1/ and rebuild.tcl script.  This is how
 to create them.
 
-Start Vivado.  Change directory to example_fpga first. [There are other
-possibilities here, but this will get you started.]
+Start Vivado.  Change directory to example_fpga first.
 
     cd example_fpga
     vivado
@@ -131,7 +138,8 @@ Now finally the project appears:
 
 ## Save the script
 
-Use the write_project_tcl command to save the script:
+Use the write_project_tcl command to save the script.  You will likely need
+to add the "-force" option to allow it overwrite the previous version of the script:
 
 ![image](images/writetcl.png)
 
@@ -161,8 +169,7 @@ files back.  First the rebuild.tcl script will fail in the line with
 create_project because the directory already exists.  You can try to get
 around this by adding -force the line with create_project.  Unfortunately,
 create_project -force deletes the entire directory, so then Vivado will
-complain that the files are missing.  Also, you will be writing out
-rebuilt.tcl many times, so you don't want to edit it.
+complain that the files are missing.
 
 You really need to create the source files outside of the project directory
 in the first place.
@@ -174,7 +181,7 @@ in the first place.
 The next difficulty is that Xilinx IP from the "IP Catalog" is written by
 default to the project directory.
 
-An example is the clock wizard IP to use the PLL or MMCM.
+An example is the clock wizard IP to use a PLL or MMCM.
 
 ![image](images/ip1.png)
 
@@ -286,7 +293,7 @@ software needs to know about the hardware:
     --------          -------  ---                            -------
      1521009            88347  94%                            5 files
 
-Now we start xsdk, either through Vivado:
+Now we start XSDK, either through Vivado:
 
 ![image](images/startxsdk.png)
 
@@ -294,13 +301,13 @@ Of course, it assumes you want the files in the project:
 
 ![image](images/startxsdk1.png)
 
-You should put the workspace (where xsdk will put the software projects you
+You should put the workspace (where XSDK will put the software projects you
 create) outside of the Vivado project.  The "Exported Location" is the
 directory where the .hdf file was placed:
 
 ![image](images/startxsdk2.png)
 
-Alternatively, you can start xsdk from the command line:
+Alternatively, you can start XSDK from the command line:
 
 	xsdk -workspace sw -hwspec design_1_wrapper.hdf
 
@@ -333,10 +340,15 @@ And you select one of the template projects:
 ![image](images/create4.png)
 
 XSDK creates the application project and a BSP project for it.  The BSP
-(Board Support Package) project has the source code for the peripherals that
-are included in the hardware.  You end up with three projects:
+(Board Support Package) project has Xilinx provided source code for the
+peripherals that are included in the hardware.  You end up with three
+projects:
 
 ![image](images/create5.png)
+
+The application project ("fred" above) has your code.  It is linked with a
+library produced from the BSP project.  The BSP project in turn depends on
+the hardware wrapper project which was created based on the .hdf file.
 
 <a name="xsdksc"/>
 
@@ -363,7 +375,7 @@ Here is a quick summary of what we are going to do:
 
 * Check in only the application project source code plus the Eclipse project files for it.  Leave out the BSP project and hardware wrapper project.
 
-* On a fresh clone, you need to rebuild the BSP project that the application project wants to reference.  Mainly this means that you have to remember to use the name it expects (usually "fred_bsp" for an application called "fred").
+* On a fresh clone, you need to rebuild the BSP project that the application project references.  Mainly this means that you have to remember to use the name it expects (usually "fred_bsp" for an application called "fred").
 
 * Alternatively, you could include the BSP project in the repository.  You may want this if you customize it in any way.  In this case, you will have to import both the BSP and the application project.
 
@@ -390,9 +402,16 @@ Assuming you do not put the BSP in the respository, the directory structure will
 
 It is important to understand some issues with XSDK:
 
-* When you start it with the -hwspec option (as it is when you "Launch SDK" from Vivado), there is a very high chance that it will import the hdf as a new design wrapper project instead of updating your existing one.
+* When you start it with the -hwspec option (as it is when you "Launch SDK" from Vivado), there is a very high chance that it will import the hdf as a new design wrapper project instead of updating your existing one. 
 
 ![image](images/xsdk1.png)
+
+But sometimes it does what you want, and just updates the existing wrapper
+project- it works correctly if you leave XSDK running when you overwrite the
+.hdf file with Vivado, or even if XSDK is not running but there are no path
+changes.  It certainly will not work if you had the wrapper project checked
+in and you start XSDK after a fresh clone.  Bottom line is that it is
+pointless to check in the wrapper project.
 
 * Then if you do end up with multiple design wrapper projects, it will be unclear which one is being referenced by the BSP project.  The "system.mss" within the BSP shows it, but will you remember to look?  Chances are high that you will compile the code with the old hardware.
 
@@ -405,14 +424,14 @@ It is important to understand some issues with XSDK:
 Anyway, you should only have a single hardware wrapper project and a single
 BSP in your workspace to keep things clear.  If you do end up with multiple
 wrapper projects, you should delete the ones you don't want by selected them
-and hitting the Delete key.  Then check the inter-project references by
+and hitting the Delete key.  Then review the inter-project references by
 right-clicking on the BSP project, click Properties and click on Project
 References:
 
 ![image](images/refs.png)
 
-Check the correct one.  Then clean and rebuild all.  Note that this window
-is also broken- none of the wrappers were checked to begin with.
+Check the correct one.  Then clean and rebuild all.  Note that even this
+window is broken- none of the wrappers were checked to begin with.
 
 <a name="xsdksteps"/>
 
@@ -458,7 +477,7 @@ Now we have the BSP project recreated:
 ![image](images/xsdk16.png)
 
 Next we import the application project.  It's already on in the workspace,
-but xsdk doesn't know about it yet.
+but XSDK doesn't know about it yet.
 
 ![image](images/xsdk17.png)
 
