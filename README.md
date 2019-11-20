@@ -1,8 +1,22 @@
 # Xilinx Vivado setup for source control
 
-See [here](#xsdk) for how to deal with xsdk / Eclipse.
-
 This was tested on Vivado version 2019.1
+
+## Contents
+
+[Project setup](#vivado)
+[Build steps](#vivadosteps)
+[Save the script](#scriptwrite)
+[Xilinx IP](#xilinxip)
+[IP Integrator / Block design](#blockdesign)
+[XSDK](#xsdk)
+[XSDK review](#review)
+[Source control for XSDK](#xsdksc)
+[Rebuild steps](#xsdksteps)
+
+<a name="vivado"/>
+
+## Project setup
 
 Here is one way to structure your FPGA project so that it is compatible with
 both Xilinx Vivado GUI in project mode and version control.  This setup
@@ -51,7 +65,9 @@ Also, you can always delete project_1/ and rebuild it:
 The ip/ directory gets polluted with derived files, but at least Vivado
 tells you which ones need to be saved in source control.
 
-# Initial project build
+<a name="vivadosteps"/>
+
+## Build steps
 
 Suppose you don't have the project_1/ and rebuild.tcl script.  This is how
 to create them.
@@ -103,7 +119,9 @@ Now finally the project appears:
 
 ![image](images/create_15.png)
 
-# Save the script
+<a name="scriptwrite"/>
+
+## Save the script
 
 Use the write_project_tcl command to save the script:
 
@@ -141,7 +159,9 @@ rebuilt.tcl many times, so you don't want to edit it.
 You really need to create the source files outside of the project directory
 in the first place.
 
-# Xilinx IP
+<a name="xilinxip"/>
+
+## Xilinx IP
 
 The next difficulty is that Xilinx IP from the "IP Catalog" is written by
 default to the project directory.
@@ -176,7 +196,9 @@ to run the write_project_tcl command and check the comments to be sure.
 Unfortunately the output products are generated in the same tree as the .xci
 files, so you have to pay close attention to the ip/ directory.
 
-# IP Integrator / Block design
+<a name="blockdesign"/>
+
+## IP Integrator / Block design
 
 Block designs must also be created outside of the project directory (for
 example, in our ip/ directory).  This is odd, because the block design ends
@@ -220,6 +242,8 @@ so you can use the write_project_tcl command.
 <a name="xsdk"/>
 
 # Xilinx SDK / Eclipse
+
+<a name="review"/>
 
 ## Review
 
@@ -306,6 +330,8 @@ are included in the hardware.  You end up with three projects:
 
 ![image](images/create5.png)
 
+<a name="xsdksc"/>
+
 ## Source control for XSDK
 
 Here is one way to structure your Xilinx SDK project so that it compatible
@@ -380,7 +406,9 @@ References:
 Check the correct one.  Then clean and rebuild all.  Note that this window
 is also broken- none of the wrappers were checked to begin with.
 
-## Rebuild from fresh clone
+<a name="xsdksteps"/>
+
+## Rebuild steps
 
 Luckily, the application project references the BSP project with a relative
 path, so you can move the application project as long as the BSP project is
