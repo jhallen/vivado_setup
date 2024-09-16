@@ -2,6 +2,41 @@
 
 This was tested on Vivado version 2019.1
 
+### Some futher hints, perhaps 2022.2 specific..
+
+Disable incremental synthesis (in Tools / Settings / Synthesis) and, if you
+have one, delete the .dcp file in Utility Sources / utils_1 (from the
+Sources Hierarchy) before running "write_project_tcl".  The problem is that
+Vivado automatically adds the checkpoint file to the project, but also
+expects it to exist when running "write_project_tcl" even though the new
+project directory must be empty.
+
+Note that incremental synthesis seems to be re-enabled after creating a new
+project with the generated .tcl file.  Note sure why the synthesis setting
+is not preserved.
+
+Not sure about incremental implementation.. maybe it's not automatic.
+
+I ran into a case where synthesis was mysteriously core-dumping in a
+project.  So I recreated the project to fix it.  But the problem is that my
+"create_project.tcl" script expected the incremental synthesis .dcp file to
+exist.
+
+If you do end up having to stuff files into the the newly created project, you
+can do this after the line with the "create_project" command:
+
+~~~tcl
+# Create project
+create_project ${_xil_proj_name_} ./${_xil_proj_name_} -part xczu19eg-ffvc1760-1-e
+# Install dcp file..
+file mkdir ${origin_dir}/project_2/project_1.srcs/utils_1/imports/synth_1
+file copy ${origin_dir}/project_1/project_1.srcs/utils_1/imports/synth_1/top.dcp ${origin_dir}/project_2/project_1.srcs/utils_1/imports/synth_1/top.dcp
+~~~
+
+In the above case above I used "vivado -source create_project.tcl -tclargs
+--project_name project_2".  This way it's happy that the .dcp file still
+exists in a broken project_1, but copies it to the new project_2.
+
 ## Contents
 
 [Project setup](#vivado)
